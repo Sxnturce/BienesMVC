@@ -1,0 +1,26 @@
+{
+  "name": "bienesmvc",
+  "version": "1.0.0",
+  "description": "Proyecto para una empresa BienesRaices",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Sxnturce/BienesMVC.git"
+  },
+  "keywords": [
+    "MVC",
+    "Pug",
+    "Tailwind",
+    "Mysql",
+    "Squalize"
+  ],
+  "author": "SebastiaSR",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Sxnturce/BienesMVC/issues"
+  },
+  "homepage": "https://github.com/Sxnturce/BienesMVC#readme"
+}
