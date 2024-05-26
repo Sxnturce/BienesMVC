@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "node index.js",
-    "server":"nodemon index.js"
+    "server": "nodemon index.js",
+    "css":"tailwind public/css/tailwind.css -o public/css/app.css --watch"
   },
   "repository": {
     "type": "git",
@@ -26,9 +27,16 @@
   },
   "homepage": "https://github.com/Sxnturce/BienesMVC#readme",
   "dependencies": {
-    "express": "^4.19.2"
+    "express": "^4.19.2",
+    "pug": "^3.0.3"
   },
   "devDependencies": {
-    "nodemon": "^3.1.0"
+    "@prettier/plugin-pug": "^3.0.0",
+    "autoprefixer": "^10.4.19",
+    "nodemon": "^3.1.0",
+    "postcss": "^8.4.38",
+    "postcss-cli": "^11.0.0",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.3"
   }
 }

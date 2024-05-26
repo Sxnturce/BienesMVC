@@ -4,7 +4,14 @@ import router from "./routes/usuarioRoutes.js";
 
 const server = express();
 
-//Puerto
+
+//Definimos la vista que usaremos y la ruta
+server.set("view engine", "pug")
+server.set("views", "./views")
+
+//Carpeta publica
+server.use(express.static("public"))
+
 const port = 3000
 
 //Determinamos el puerto que usaremos
@@ -13,4 +20,4 @@ server.listen(port, () => {
 })
 
 
-server.use("/", router)
+server.use("/auth", router)
