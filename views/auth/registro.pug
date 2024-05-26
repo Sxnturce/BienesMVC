@@ -4,15 +4,21 @@ block contenido
     h1(class="font-bold my-10 text-neutral-900 text-4xl text-center") Bienes
       span(class="font-normal") Raices
     h2(class="text-center text-2xl font-extrabold")=pagina
+
+    if errores
+      div(class="max-w-md mx-auto my-10")
+        each error in errores
+          p(class="bg-red-600 text-white font-semibold text-sm text-center uppercase p-2 mb-1")=error.msg
+
     div(class="mt-8")
       div(class="bg-white py-8 px-4 shadow max-w-md w-full mx-auto")
-        form(class="space-y-5")(action="")
+        form(class="space-y-5")(action="/auth/registro")(method="POST")
           div
             label(class="block text-sm uppercase text-gray-500 mb-2 font-bold")(for="nombre") Nombre
-            input#nombre(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="Ingrese su nombre")(type="text")(name="nombre")
+            input#nombre(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="Ingrese su nombre")(type="text")(name="nombre")(value= usuario ? usuario.name:"")
           div
             label(class="block text-sm uppercase text-gray-500 mb-2 font-bold")(for="email") Email
-            input#email(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="example@example")(type="email")(name="email")
+            input#email(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="example@example")(type="email")(name="email")(value= usuario ? usuario.email:"")
           div
             label(class="block text-sm uppercase text-gray-500 mb-2 font-bold")(for="pass") Password
             input#pass(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="*********")(type="password")(name="pass")
