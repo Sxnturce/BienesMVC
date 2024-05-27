@@ -5,26 +5,37 @@ block contenido
       span(class="font-normal") Raices
     h2(class="text-center text-2xl font-extrabold")=pagina
 
-    if errores
-      div(class="max-w-md mx-auto my-10")
-        each error in errores
-          p(class="bg-red-600 text-white font-semibold text-sm text-center uppercase p-2 mb-1")=error.msg
-
     div(class="mt-8")
       div(class="bg-white py-8 px-4 shadow max-w-md w-full mx-auto")
         form(class="space-y-5")(action="/auth/registro")(method="POST")
           div
             label(class="block text-sm uppercase text-gray-500 mb-2 font-bold")(for="nombre") Nombre
-            input#nombre(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="Ingrese su nombre")(type="text")(name="nombre")(value= usuario ? usuario.name:"")
+            input#nombre(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="Ingrese su nombre")(type="text")(name="nombre")(value= usuario ? usuario.name : "")
+            if errores
+              - let nombreError = errores.find(err => err.path === "nombre")
+              if nombreError
+                p(class="text-red-400 text-sm")= nombreError.msg
           div
             label(class="block text-sm uppercase text-gray-500 mb-2 font-bold")(for="email") Email
-            input#email(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="example@example")(type="email")(name="email")(value= usuario ? usuario.email:"")
+            input#email(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="example@example")(type="email")(name="email")(value= usuario ? usuario.email : "")
+            if errores
+              - let emailError = errores.find(err => err.path === "email" || err.registered )
+              if emailError
+                p(class="text-red-400 text-sm")= emailError.msg
           div
             label(class="block text-sm uppercase text-gray-500 mb-2 font-bold")(for="pass") Password
             input#pass(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="*********")(type="password")(name="pass")
+            if errores
+              - let passError = errores.find(err => err.path === "pass")
+              if passError
+                p(class="text-red-400 text-sm")= passError.msg
           div
             label(class="block text-sm uppercase text-gray-500 mb-2 font-bold")(for="repet_pass") Repetir password
             input#repet_pass(class="w-full px-3 py-2 border-2 border-gray-300 outline-0 focus:border-sky-600 rounded-md placeholder-gray-400")(placeholder="*********")(type="password")(name="repet_pass")
+            if errores
+              - let repeatError = errores.find(err => err.path === "repet_pass")
+              if repeatError
+                p(class="text-red-400 text-sm")= repeatError.msg
           div(class="flex items-center text-sm justify-between text-gray-500")
             a(href="/auth/login") ¿Ya tienes cuenta? Inicia Sesión
             a(href="/auth/password") ¿Olvidaste tu contraseña?
