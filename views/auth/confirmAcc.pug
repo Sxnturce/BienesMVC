@@ -1,0 +1,9 @@
+extends ../layout/index
+block contenido
+  div(class="py-10 px-2 sm:px-0 ")
+    h1(class="font-bold my-10 text-neutral-900 text-4xl text-center") Bienes
+      span(class="font-normal") Raices
+    h2(class=`text-center text-2xl font-extrabold ${exist ? "text-green-500" :"text-red-500"}`)=pagina
+    p(class="text-xl font-bold text-center my-10")=msg
+    if exist
+      a(class="w-max py-2 px-2 text-white font-semibold bg-green-500 rounded-md mx-auto hover:bg-green-700 transition-all ease-in-out duration-200 block")(href="auth/login") Iniciar Sesion 

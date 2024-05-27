@@ -1,4 +1,6 @@
 import { check, validationResult } from 'express-validator'
+import { generarID } from '../helpers/tokesns.js'
+import { emailRegistro } from '../helpers/emails.js'
 
 import Usuario from "../models/Usuario.js"
 
@@ -10,7 +12,8 @@ const formLogin = (req, res) => {
 
 const formRegister = (req, res) => {
   res.render("auth/registro", {
-    pagina: "Crear Cuenta"
+    pagina: "Crear Cuenta",
+    csrfToken: req.csrfToken()
   })
 }
 
@@ -35,6 +38,7 @@ const registrar = async (req, res) => {
     return res.render("auth/registro", {
       pagina: "Crear Cuenta",
       errores: resultado.array(),
+      csrfToken: req.csrfToken(),
       usuario: {
         name: req.body.nombre,
         email: req.body.email
@@ -51,6 +55,7 @@ const registrar = async (req, res) => {
   if (existUser) {
     return res.render("auth/registro", {
       pagina: "Crear Cuenta",
+      csrfToken: req.csrfToken(),
       errores: [{
         msg: "El email ya esta registrado",
         registered: true
@@ -62,17 +67,55 @@ const registrar = async (req, res) => {
     })
   }
 
-  await Usuario.create({
+  const usuario = await Usuario.create({
     nombre,
     email,
     pass,
-    token: 123
+    token: generarID()
   })
+
+
+  //Enviar datos al email
+  emailRegistro({
+    nombre: usuario.nombre,
+    email: usuario.email,
+    token: usuario.token
+  })
+  //Mostrar mensaje
+  res.render("templates/message", {
+    pagina: "Esperando confirmacion de correo",
+    mensaje: "Hemos enviado un mensaje de confirmación, preciona en el enlace"
+  })
+
 }
 
+const confirmar = async (req, res) => {
+  const { token } = req.params;
+
+  const usuario = await Usuario.findOne({ where: { token } })
+  if (!usuario) {
+    return res.render("auth/confirmAcc", {
+      pagina: "Error al confirmar la cuenta",
+      msg: "Lo sentimos no se pudo auntenticar la confirmación",
+      exist: false
+    })
+  }
+
+  //Si el usuario esta confirmado
+  usuario.token = null;
+  usuario.confirmado = true;
+  await usuario.save();
+
+  res.render("auth/confirmAcc", {
+    pagina: "Cuenta confirmada exitosamente",
+    msg: "La cuenta fue auntenticada exitosamente",
+    exist: true
+  })
+}
 export {
   formLogin,
   formRegister,
   formForgotPass,
-  registrar
+  registrar,
+  confirmar
 }
